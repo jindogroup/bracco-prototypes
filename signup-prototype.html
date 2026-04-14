@@ -1478,6 +1478,13 @@ body {
     <p class="screen-title">One last step</p>
     <p class="screen-subtitle">Review and accept our policies to complete your account.</p>
 
+    <p style="font-size:13px; font-weight:700; color:var(--subtext); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">Promo code <span style="font-weight:500; text-transform:none; letter-spacing:0;">(Optional)</span></p>
+    <div class="input-wrap" id="promoWrap" style="margin-bottom:24px;">
+      <input type="text" id="promoInput" placeholder=" " autocomplete="off"
+             oninput="setFilled('promoWrap', this.value.length > 0)" />
+      <label>Promo code</label>
+    </div>
+
     <div class="checkbox-row" onclick="toggleTerms()">
       <div class="checkbox-box" id="termsBox"></div>
       <div class="checkbox-label">

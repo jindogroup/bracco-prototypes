@@ -485,10 +485,18 @@ body {
   user-select: none;
 }
 .phone-compound .input-wrap { flex: 1; margin-bottom: 0; }
+.country-code-wrap { flex: 0 0 110px !important; }
+.country-code-wrap select { padding-right: 8px; font-size: 14px; background-position: right 6px center; }
 
 /* =============================================
    ADD UNIT LINK
    ============================================= */
+.tap-link {
+  color: var(--gold);
+  cursor: pointer;
+  font-size: inherit;
+}
+.tap-link:hover { color: var(--gold-light); }
 .add-link {
   font-size: 14px;
   color: var(--gold);
@@ -708,6 +716,16 @@ body {
 }
 .state-row:hover { background: var(--surface2); }
 .state-check { color: var(--gold); font-size: 13px; font-weight: 700; }
+.sheet-section-head {
+  padding: 10px 20px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--subtext);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
 
 /* =============================================
    SSO CONNECTING OVERLAY
@@ -979,7 +997,7 @@ body {
     <div class="sheet-head">
       <div>
         <div class="sheet-title">Available states</div>
-        <div class="sheet-sub">Bracco is available in 40+ US states</div>
+        <div class="sheet-sub">Bracco is available in 40+ US states and all Canadian provinces</div>
       </div>
       <button class="sheet-close-btn" onclick="closeSheet()">✕</button>
     </div>
@@ -1018,7 +1036,7 @@ body {
     <div class="spacer"></div>
     <div class="state-tile" onclick="openSheet()">
       <span class="state-tile-icon">📍</span>
-      <span class="state-tile-text">Bracco is available for US residents only in select states</span>
+      <span class="state-tile-text">Bracco is available to US and Canadian residents only in select regions</span>
       <span class="state-tile-chevron">›</span>
     </div>
     <button class="cta" id="landingCta" disabled onclick="startEmail()">Continue with email</button>
@@ -1125,7 +1143,38 @@ body {
     <p class="screen-subtitle">We'll send a one-time verification code.</p>
 
     <div class="phone-compound">
-      <div class="phone-prefix">🇺🇸 +1</div>
+      <div class="input-wrap country-code-wrap" id="ccWrap">
+        <select id="countryCode" onchange="onCCChange()">
+          <option value="+1" data-flag="🇺🇸">🇺🇸 +1</option>
+          <option value="+1-CA" data-flag="🇨🇦">🇨🇦 +1</option>
+          <option value="+44" data-flag="🇬🇧">🇬🇧 +44</option>
+          <option value="+61" data-flag="🇦🇺">🇦🇺 +61</option>
+          <option value="+33" data-flag="🇫🇷">🇫🇷 +33</option>
+          <option value="+49" data-flag="🇩🇪">🇩🇪 +49</option>
+          <option value="+34" data-flag="🇪🇸">🇪🇸 +34</option>
+          <option value="+39" data-flag="🇮🇹">🇮🇹 +39</option>
+          <option value="+31" data-flag="🇳🇱">🇳🇱 +31</option>
+          <option value="+46" data-flag="🇸🇪">🇸🇪 +46</option>
+          <option value="+47" data-flag="🇳🇴">🇳🇴 +47</option>
+          <option value="+45" data-flag="🇩🇰">🇩🇰 +45</option>
+          <option value="+64" data-flag="🇳🇿">🇳🇿 +64</option>
+          <option value="+353" data-flag="🇮🇪">🇮🇪 +353</option>
+          <option value="+27" data-flag="🇿🇦">🇿🇦 +27</option>
+          <option value="+52" data-flag="🇲🇽">🇲🇽 +52</option>
+          <option value="+55" data-flag="🇧🇷">🇧🇷 +55</option>
+          <option value="+91" data-flag="🇮🇳">🇮🇳 +91</option>
+          <option value="+81" data-flag="🇯🇵">🇯🇵 +81</option>
+          <option value="+82" data-flag="🇰🇷">🇰🇷 +82</option>
+          <option value="+65" data-flag="🇸🇬">🇸🇬 +65</option>
+          <option value="+971" data-flag="🇦🇪">🇦🇪 +971</option>
+          <option value="+966" data-flag="🇸🇦">🇸🇦 +966</option>
+          <option value="+20" data-flag="🇪🇬">🇪🇬 +20</option>
+          <option value="+234" data-flag="🇳🇬">🇳🇬 +234</option>
+          <option value="+254" data-flag="🇰🇪">🇰🇪 +254</option>
+          <option value="+212" data-flag="🇲🇦">🇲🇦 +212</option>
+        </select>
+        <label>Country</label>
+      </div>
       <div class="input-wrap" id="phoneWrap">
         <input type="tel" id="phoneInput" placeholder=" " maxlength="14"
                oninput="onPhoneChange(this)" />
@@ -1357,7 +1406,16 @@ body {
     <div class="step-dots" id="dots-address"></div>
 
     <p class="screen-title">What's your address?</p>
-    <p class="screen-subtitle">For US residents only. Used for identity verification.</p>
+    <p class="screen-subtitle">For US and Canadian residents in <span class="tap-link" onclick="openSheet()">select regions</span>. Used for identity verification.</p>
+
+    <div class="input-wrap" id="addrCountryWrap">
+      <select id="addrCountry" onchange="onAddrCountryChange()">
+        <option value="" disabled selected></option>
+        <option value="US">United States</option>
+        <option value="CA">Canada</option>
+      </select>
+      <label>Country</label>
+    </div>
 
     <div class="input-wrap" id="a1Wrap">
       <input type="text" id="addr1" placeholder=" " oninput="onAddrChange()" />
@@ -1396,13 +1454,13 @@ body {
         <option>Vermont</option><option>Virginia</option><option>Washington</option>
         <option>West Virginia</option><option>Wisconsin</option><option>Wyoming</option>
       </select>
-      <label>State</label>
+      <label id="stateLabel">State</label>
     </div>
 
     <div class="input-wrap" id="zipWrap">
-      <input type="text" id="zipInput" placeholder=" " maxlength="5"
+      <input type="text" id="zipInput" placeholder=" " maxlength="7"
              inputmode="numeric" oninput="onAddrChange()" />
-      <label>Zip code</label>
+      <label id="zipLabel">Zip code</label>
     </div>
 
     <div class="spacer"></div>
@@ -1534,6 +1592,12 @@ const STATES = [
   'Virginia','Washington','West Virginia','Wisconsin','Wyoming',
 ];
 
+const PROVINCES = [
+  'Alberta','British Columbia','Manitoba','New Brunswick',
+  'Newfoundland and Labrador','Northwest Territories','Nova Scotia',
+  'Nunavut','Ontario','Prince Edward Island','Quebec','Saskatchewan','Yukon',
+];
+
 /* ── SCREEN NAV ─────────────────────────────── */
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -1580,9 +1644,15 @@ function renderDots(id) {
 /* ── BOTTOM SHEET ───────────────────────────── */
 function openSheet() {
   const body = document.getElementById('stateSheetBody');
-  body.innerHTML = STATES.map(s =>
+  const stateRows = STATES.map(s =>
     `<div class="state-row"><span>${s}</span><span class="state-check">✓</span></div>`
   ).join('');
+  const provRows = PROVINCES.map(p =>
+    `<div class="state-row"><span>${p}</span><span class="state-check">✓</span></div>`
+  ).join('');
+  body.innerHTML =
+    `<div class="sheet-section-head">United States</div>` + stateRows +
+    `<div class="sheet-section-head">Canada</div>` + provRows;
   document.getElementById('sheetBackdrop').classList.add('open');
   document.getElementById('stateSheet').classList.add('open');
 }
@@ -1694,6 +1764,12 @@ function onNameChange() {
 }
 
 /* ── PHONE ──────────────────────────────────── */
+function onCCChange() {
+  // Country code changed — re-validate phone if already filled
+  const ph = document.getElementById('phoneInput').value.replace(/\D/g,'');
+  document.getElementById('cta-phone').disabled = ph.length !== 10;
+}
+
 function onPhoneChange(el) {
   clearFieldError('phone');
   let d = el.value.replace(/\D/g,'').slice(0,10);
@@ -1755,17 +1831,60 @@ function showAddr2() {
   document.getElementById('addUnitBtn').style.display = 'none';
 }
 
+function onAddrCountryChange() {
+  const country = document.getElementById('addrCountry').value;
+  if (country) document.getElementById('addrCountryWrap').classList.add('select-filled');
+  else          document.getElementById('addrCountryWrap').classList.remove('select-filled');
+
+  // Swap State/Province options
+  const sel = document.getElementById('stateSelect');
+  const currentVal = sel.value;
+  sel.innerHTML = '<option value="" disabled selected></option>';
+
+  if (country === 'CA') {
+    document.getElementById('stateLabel').textContent = 'Province';
+    document.getElementById('zipLabel').textContent   = 'Postal code';
+    document.getElementById('zipInput').maxLength = 7;
+    document.getElementById('zipInput').inputMode = 'text';
+    PROVINCES.forEach(p => {
+      const o = document.createElement('option'); o.value = p; o.textContent = p; sel.appendChild(o);
+    });
+  } else {
+    document.getElementById('stateLabel').textContent = 'State';
+    document.getElementById('zipLabel').textContent   = 'Zip code';
+    document.getElementById('zipInput').maxLength = 5;
+    document.getElementById('zipInput').inputMode = 'numeric';
+    ['Alabama','Alaska','Arizona','Arkansas','Colorado','Delaware','Florida','Georgia',
+     'Hawaii','Illinois','Indiana','Iowa','Kansas','Kentucky','Maine','Maryland',
+     'Massachusetts','Minnesota','Mississippi','Missouri','Nebraska','New Hampshire',
+     'New Mexico','North Carolina','North Dakota','Ohio','Oklahoma','Oregon',
+     'Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas',
+     'Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'
+    ].forEach(s => {
+      const o = document.createElement('option'); o.value = s; o.textContent = s; sel.appendChild(o);
+    });
+  }
+  // Reset downstream fields
+  sel.selectedIndex = 0;
+  document.getElementById('stateWrap').classList.remove('select-filled');
+  document.getElementById('zipInput').value = '';
+  setFilled('zipWrap', false);
+  onAddrChange();
+}
+
 function onAddrChange() {
+  const country = document.getElementById('addrCountry').value;
   const a1    = document.getElementById('addr1').value.trim();
   const city  = document.getElementById('cityInput').value.trim();
   const state = document.getElementById('stateSelect').value;
   const zip   = document.getElementById('zipInput').value.trim();
+  const minZip = country === 'CA' ? 6 : 5;
   setFilled('a1Wrap',   a1.length > 0);
   setFilled('cityWrap', city.length > 0);
   setFilled('zipWrap',  zip.length > 0);
   if (state) document.getElementById('stateWrap').classList.add('select-filled');
   else        document.getElementById('stateWrap').classList.remove('select-filled');
-  document.getElementById('cta-address').disabled = !(a1 && city && state && zip.length >= 5);
+  document.getElementById('cta-address').disabled = !(country && a1 && city && state && zip.length >= minZip);
 }
 
 /* ── TERMS ──────────────────────────────────── */
@@ -1878,6 +1997,9 @@ function reset() {
                      termsChecked:false, isError:false, submitCount:0 });
 
   // Clear inputs
+  const ccEl = document.getElementById('countryCode');
+  if (ccEl) ccEl.selectedIndex = 0;
+  document.getElementById('ccWrap')?.classList.remove('select-filled');
   document.querySelectorAll('input').forEach(el => {
     el.value=''; el.type = el.className.includes('pw-input') ? 'password' : el.type;
     el.classList.remove('has-error','filled');
@@ -1911,6 +2033,11 @@ function reset() {
     const el = document.getElementById(id);
     if (el) el.selectedIndex = 0;
   });
+  const addrCountryEl = document.getElementById('addrCountry');
+  if (addrCountryEl) addrCountryEl.selectedIndex = 0;
+  document.getElementById('addrCountryWrap')?.classList.remove('select-filled');
+  document.getElementById('stateLabel').textContent = 'State';
+  document.getElementById('zipLabel').textContent = 'Zip code';
   ['mWrap','dWrap','yWrap'].forEach(id =>
     document.getElementById(id)?.classList.remove('select-filled'));
   document.getElementById('addUnitBtn').style.display = 'block';
